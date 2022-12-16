@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomItemsPanel", "CustomItemsPanel\CustomItemsPanel.csproj", "{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomItemsPanelTest", "CustomItemsPanelTest\CustomItemsPanelTest.csproj", "{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FDBD15C-2A06-45D5-8699-260D647F7363}
+	EndGlobalSection
+EndGlobal
