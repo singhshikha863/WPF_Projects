@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,15 @@ namespace CustomItemsPanel
 {
     class ErrorLogFile : IErrorLogger
     {
+        static readonly string logErrorFileName = ConfigurationManager.AppSettings["LogErrorFileName"].ToString();
         public void LogError(Exception ex)
         {
-            string folderPath = "C:\\Temp";
-            // private string file = folderPath + "Data.txt";
-            if (!Directory.Exists(folderPath))
+            if (!Directory.Exists(logErrorFileName))
             {
-                Directory.CreateDirectory(folderPath);
+                Directory.CreateDirectory(logErrorFileName);
             }
 
-            FileStream fs = new FileStream(folderPath + "ErrrLog.txt", FileMode.Append, FileAccess.Write);
+            FileStream fs = new FileStream(logErrorFileName, FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
             sw.Write(DateTime.Now + " Message : " + ex.Message);
             sw.Close();

@@ -1,12 +1,8 @@
 ﻿using FlickrNet;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.Caching;
-using System.Text;
-using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace CustomItemsPanel
 {
@@ -24,8 +20,6 @@ namespace CustomItemsPanel
                     return (IEnumerable)cache.Get(cacheKey.ToLower());
                 else
                 {
-                    int k = 10;
-                    int n = k/0;
                     PhotoSearchOptions options = new PhotoSearchOptions();
                     //options.PerPage = 16;
                     options.Page = 2;

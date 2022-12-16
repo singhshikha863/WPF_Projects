@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomItemsPanel
 {
@@ -14,7 +11,7 @@ namespace CustomItemsPanel
         {
             this.logger = logger;
         }
-        BusinessLogic businessLogic = new BusinessLogic();
+        
         public void CreateFile(string keyword, string fileName)
         {
             try
@@ -60,7 +57,6 @@ namespace CustomItemsPanel
             {
                 updateKeyword = currentKeyword;
                 logger.LogError(ex);
-                //Console.WriteLine(Ex.ToString());
             }
         }
     }
