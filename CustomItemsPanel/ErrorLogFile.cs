@@ -8,21 +8,40 @@ using System.Threading.Tasks;
 
 namespace CustomItemsPanel
 {
-    class ErrorLogFile : IErrorLogger
+   public class ErrorLogFile : IErrorLogger
     {
         static readonly string logErrorFileName = ConfigurationManager.AppSettings["LogErrorFileName"].ToString();
         public void LogError(Exception ex)
         {
-            if (!Directory.Exists(logErrorFileName))
+            try
             {
-                Directory.CreateDirectory(logErrorFileName);
-            }
+                StreamWriter log;
+                FileStream fileStream = null;
+                DirectoryInfo logDirInfo = null;
+                FileInfo logFileInfo;
 
-            FileStream fs = new FileStream(logErrorFileName, FileMode.Append, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.Write(DateTime.Now + " Message : " + ex.Message);
-            sw.Close();
-            fs.Close();
+                string logFilePath = logErrorFileName;
+                logFilePath = logFilePath + "Log-" + System.DateTime.Today.ToString("MM-dd-yyyy") + "." + "txt";
+                logFileInfo = new FileInfo(logFilePath);
+                logDirInfo = new DirectoryInfo(logFileInfo.DirectoryName);
+                if (!logDirInfo.Exists) logDirInfo.Create();
+                if (!logFileInfo.Exists)
+                {
+                    fileStream = logFileInfo.Create();
+                }
+                else
+                {
+                    fileStream = new FileStream(logFilePath, FileMode.Append);
+                }
+                log = new StreamWriter(fileStream);
+                log.Flush();
+                log.WriteLine(DateTime.Now + " Message : " + ex.Message);
+                log.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }           
         }
     }
 }

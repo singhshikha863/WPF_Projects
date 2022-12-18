@@ -6,12 +6,34 @@ using System.Runtime.Caching;
 
 namespace CustomItemsPanel
 {
-    class BusinessLogic
+    /// <summary>
+    /// This class contains the logic to call the Flicker api and process the result
+    /// </summary>
+    public class BusinessLogic
     {
-        static readonly string flickrKey = ConfigurationManager.AppSettings["apiKey"].ToString();
-       // private static  PreviousSearchData previousSearch = new PreviousSearchData();
-        public static IEnumerable GetPhotos(string cacheKey)
+           
+        #region Private member
+
+        private IErrorLogger logger;
+        private readonly string flickrKey = ConfigurationManager.AppSettings["apiKey"].ToString();
+        #endregion
+
+        #region Constructor
+        public BusinessLogic(IErrorLogger logger)
         {
+            this.logger = logger;
+        }
+
+        #endregion
+        #region Public Method
+        /// <summary>
+        /// This method will call the Flicker api and retrive the available photos
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public IEnumerable GetPhotos(string cacheKey)
+        {
+           
             try
             {
                 ObjectCache cache = MemoryCache.Default;
@@ -39,9 +61,11 @@ namespace CustomItemsPanel
             }
             catch (Exception ex)
             {
-               // Console.WriteLine(ex);
-               throw new Exception("Message", ex);
+                logger.LogError(ex);
+                return null;
             }
         }
+
+        #endregion
     }
 }

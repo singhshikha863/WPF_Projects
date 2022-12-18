@@ -4,18 +4,34 @@ using System.Linq;
 
 namespace CustomItemsPanel
 {
-    class PreviousSearchData
+    /// <summary>
+    /// This class contians the logic to retrive the previous search data
+    /// </summary>
+    public class PreviousSearchData
     {
+        #region Private Member
         private IErrorLogger logger;
+        #endregion
+
+        #region Constructor
         public PreviousSearchData(IErrorLogger logger)
         {
             this.logger = logger;
         }
-        
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method will create the file to preserve the last search keywords
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="fileName"></param>
         public void CreateFile(string keyword, string fileName)
-        {
+        {            
             try
-            {
+            {               
                 // Create a new file  
                 if (!File.Exists(fileName))
                 {
@@ -37,7 +53,14 @@ namespace CustomItemsPanel
                 logger.LogError(ex);
             }
         }
-        public void ReadFile( string currentKeyword, string fileName, out string updateKeyword)
+
+        /// <summary>
+        /// This method will read the previous searched keyword and get the photos 
+        /// </summary>
+        /// <param name="currentKeyword"></param>
+        /// <param name="fileName"></param>
+        /// <param name="updateKeyword"></param>
+        public void PreviousSearchKey( string currentKeyword, string fileName, out string updateKeyword)
         {
             try
             {
@@ -46,7 +69,8 @@ namespace CustomItemsPanel
                 {
                     if (!item.Equals(currentKeyword))
                     {
-                        BusinessLogic.GetPhotos(item);
+                       // BusinessLogic bb = new BusinessLogic(new ErrorLogFile());
+                       // bb.GetPhotos(item);
                         updateKeyword = item;
                         return;
                     }
@@ -59,5 +83,7 @@ namespace CustomItemsPanel
                 logger.LogError(ex);
             }
         }
+
+        #endregion
     }
 }
