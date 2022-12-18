@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomItemsPanel", "CustomItemsPanel\CustomItemsPanel.csproj", "{DAF69FD7-1512-49B6-9FF4-D8328BCF4510}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomItemsPanelTest", "CustomItemsPanelTest\CustomItemsPanelTest.csproj", "{EC334DBF-EFB6-45DD-8735-D734FDDBB95F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAF69FD7-1512-49B6-9FF4-D8328BCF4510} = {DAF69FD7-1512-49B6-9FF4-D8328BCF4510}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

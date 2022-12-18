@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using FlickrNet;
 
 namespace CustomItemsPanel
 {
+    /// <summary>
+    /// This class contains the logic to load the images and present it to the user 
+    /// </summary>
     public static class ImageLoader
     {
-        static readonly string defaultKeyword = ConfigurationManager.AppSettings["defaultKey"].ToString();
+        #region Private Member
+
+        private static readonly string defaultKeyword = ConfigurationManager.AppSettings["defaultKey"].ToString();
+        #endregion
+
+        #region Public Member
         public static string keyword { get; set; }
         public static string fileName { get; set; }
-        //public static ObservableCollection<BitmapImage> observablenChange { get; set; }
+
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// This method contains the logic to load the images and return it to the user 
+        /// </summary>
+        /// <returns></returns>
         public static ObservableCollection<BitmapImage> LoadImages()
         {
             string currentKeyword = "";
@@ -31,20 +43,27 @@ namespace CustomItemsPanel
 
             PreviousSearchData previousSearchData = new PreviousSearchData(new ErrorLogFile());
             previousSearchData.CreateFile(currentKeyword, fileName);
-            BusinessLogic businessLogic = new BusinessLogic();
-            //List<BitmapImage> robotImages = new List<BitmapImage>();
+            BusinessLogic businessLogic = new BusinessLogic(new ErrorLogFile());           
 
-            ObservableCollection<BitmapImage> robotImages = new ObservableCollection<BitmapImage>();
-            IEnumerable collection = BusinessLogic.GetPhotos(currentKeyword);
-
-            foreach (var robotImageFile in collection)
+            ObservableCollection<BitmapImage> collectionOfImages = new ObservableCollection<BitmapImage>();
+            IEnumerable collection = businessLogic.GetPhotos(currentKeyword);
+            if (collection != null)
             {
-                var xx = (Photo)robotImageFile;
-                Uri uri = new Uri(xx.LargeUrl);
-                robotImages.Add(new BitmapImage(uri));
+                foreach (var imageFile in collection)
+                {
+                    var extractURL = (Photo)imageFile;
+                    Uri uri = new Uri(extractURL.LargeUrl);
+                    collectionOfImages.Add(new BitmapImage(uri));
+                }
             }
-
-            return robotImages;
+            else
+            {
+                MessageBox.Show("The collection result is null, please check the api calling or network correction" +MessageBoxImage.Error +MessageBoxButton.OK);
+            }
+            
+            return collectionOfImages;
         }
+
+        #endregion
     }
 }

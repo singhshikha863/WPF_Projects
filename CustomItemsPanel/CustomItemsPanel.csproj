@@ -52,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -77,6 +78,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessLogic.cs" />
+    <Compile Include="MockData.cs" />
     <Compile Include="ErrorLogFile.cs" />
     <Compile Include="IErrorLogger.cs" />
     <Compile Include="ImageLoader.cs" />
@@ -112,18 +114,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Robots\Robot up close.jpg" />
-    <Resource Include="Robots\Robot.jpg" />
-    <Resource Include="Robots\Weird Robot.jpg" />
-    <Resource Include="Robots\Wooden Robot.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Robots\colorful robot.jpg" />
-    <Resource Include="Robots\reflected robot.jpg" />
-    <Resource Include="Robots\space robot.jpg" />
-    <Resource Include="Robots\Steelbot.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

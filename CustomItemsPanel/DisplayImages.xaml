@@ -21,8 +21,7 @@
               >
                             <Image Name ="Image1"
                 Source="{Binding Path=UriSource}" 
-                Stretch="Fill"
-                Width="300" Height="300" 
+                Stretch="Fill"  Width="300" Height="300" 
                />
                         </Border>
                         <DataTemplate.Triggers>
@@ -70,24 +69,32 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-
-        <Grid Background="Aqua " Height="45" Grid.Row ="0" Margin ="0,0,0,0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="7*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>            
+        </Grid.ColumnDefinitions>
+        <Grid Background="Aqua " Height="60" Grid.Row ="0" Margin ="0,0,0,0" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="1*"></ColumnDefinition>
                 <ColumnDefinition Width="7*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Margin="10,0,0,0" Height="23" Name="LblCurrentPhoto" Grid.Column="0" HorizontalAlignment="Center">Search
+            <Label Margin="0,0,0,11" Height="30" Name="LblCurrentPhoto" Grid.Column="0" HorizontalAlignment="Center" FontSize="16">Search
             </Label>
-            <TextBox Name="SearchTextBox" Height="23"  Visibility="Visible" Margin="0,11" Grid.Column="1" HorizontalAlignment="Stretch"/>
-            <Button Name="BtnBrowse" Margin="10,0,0,0" Height="23" Click ="GoButton_Click" Grid.Column="2">Browse
+            <TextBox Name="SearchTextBox" Height="30"  Visibility="Visible" Margin="0,0,0,11" Grid.Column="1" HorizontalAlignment="Stretch"
+                     Padding="5,5,5,5" Text="Type your serach here" FontSize="14" GotFocus="TextBox_Focus" LostFocus="TextBox_LostFocus"/>
+            <Button Name="BtnBrowse" Margin="5,0,0,11" Height="30" Click ="GoButton_Click" Grid.Column="2" FontSize="14">Browse
             </Button>
-            <Button Name="BtnPrev" Margin="10,0,50,0" Height="23" Click ="PreviousSearchClick" Grid.Column="3">Previous
+            <Button Name="BtnPrev" Margin="5,0,40,11" Height="30" Click ="PreviousSearchClick" Grid.Column="3" FontSize="14">Previous
             </Button>
         </Grid>
         <!--</StackPanel>-->
-        <ListBox Name="ImageCollection" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"  />
+        
+        <ListBox Name="ImageCollection" ItemsSource="{Binding}" Grid.Row="1" SelectedItem="SelectedItemProp" SelectionChanged="ImageCollection_Selected" Grid.ColumnSpan="2"/>
+        <!--<Canvas Grid.Column="1" Grid.Row="1" Background="Red">
+            <Image Name="SelectedImage"/>
+        </Canvas>-->
     </Grid>
     
 </Window>
