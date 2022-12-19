@@ -58,12 +58,15 @@ namespace CustomItemsPanel
             }
             else
             {
-                MessageBox.Show("The collection result is null, please check the api calling or network correction" +MessageBoxImage.Error +MessageBoxButton.OK);
+                string message = "Photo search returns null, please check the api calling or network connection";
+                string title = "Waring Window";
+                MessageBox.Show(message, title ,MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             
             return collectionOfImages;
         }
 
         #endregion
+
     }
 }

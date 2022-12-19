@@ -1,24 +1,30 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Configuration;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Drawing;
+using System.Windows.Input;
+
 namespace CustomItemsPanel
 {
-	public partial class Window1 : Window
-	{
-        readonly string fileName = ConfigurationManager.AppSettings["fileName"].ToString();
-        private readonly PreviousSearchData previousSearchData = new PreviousSearchData(new ErrorLogFile());
+    public partial class Window1 : Window
+    {
+        #region MyRegion
+        private bool browse = false;
+        private bool previousSearch = false;
+        private double scale = 1.0;
+        private const double minScale = 0.5;
+        private const double maxScale = 2.0;
+        private bool hasBeenClicked = false;
+        private string text = "Type your search here";
+        private readonly string fileName = ConfigurationManager.AppSettings["fileName"].ToString();
+        private string defaultText { get; set; }
+        #endregion
+
+        #region Constructor
         public Window1()
-		{
+        {
             // Check if file already exists. If yes, delete it.  
             if (File.Exists(fileName))
             {
@@ -28,45 +34,37 @@ namespace CustomItemsPanel
             ImageLoader.fileName = fileName;
             InitializeComponent();
         }
+        
+        #endregion
+        
+
+        #region Private Methods
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {
+            browse = true;
             ImageLoader.keyword = SearchTextBox.Text.Trim();
-            ImageCollection.ItemsSource  = ImageLoader.LoadImages();
-           // ImageCollection.Items.Refresh();
+            ImageCollection.ItemsSource = ImageLoader.LoadImages();
+            browse = false;
+
         }
 
         private void PreviousSearchClick(object sender, RoutedEventArgs e)
         {
-            previousSearchData.PreviousSearchKey(SearchTextBox.Text.Trim(), fileName,out string updateKeyword);
+            previousSearch = true;
+            PreviousSearchData previousSearchData = new PreviousSearchData(new ErrorLogFile());
+            previousSearchData.PreviousSearchKey(SearchTextBox.Text.Trim(), fileName, out string updateKeyword);
             SearchTextBox.Text = updateKeyword;
             ImageLoader.keyword = SearchTextBox.Text.Trim();
             ImageCollection.ItemsSource = ImageLoader.LoadImages();
+            previousSearch = false;
         }
 
-        //  double currentScale = 1.0;
-        double scale = 1.0;
-        double minScale = 0.5;
-        double maxScale = 2.0;
         private void onMouseWheel_Scroll(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-            //var position = e.MouseDevice.GetPosition(ImageGrid);
-            //var renderTransformValue = ImageGrid.RenderTransform.Value;
-            //if (e.Delta > 0)
-            //{
-            //    currentScale += 0.1;
-            //}
-            //else if (e.Delta < 0)
-            //{
-            //    currentScale -= 0.1;
-            //    if (currentScale < 1.0)
-            //        currentScale = 1.0;
-            //}
-            //ImageGrid.RenderTransform = new ScaleTransform(currentScale, currentScale, position.X, position.Y);
-            //ListBox.SelectedItemProperty
-            ImageCollection.RenderTransform = null;
+            SelectedImage.RenderTransform = null;
 
-            var position = e.MouseDevice.GetPosition(ImageCollection);
+            var position = e.MouseDevice.GetPosition(SelectedImage);
 
             if (e.Delta > 0)
                 scale += 0.1;
@@ -78,55 +76,24 @@ namespace CustomItemsPanel
             if (scale < minScale)
                 scale = minScale;
 
-            ImageCollection.RenderTransform = new ScaleTransform(scale, scale, position.X, position.Y);
+            SelectedImage.RenderTransform = new ScaleTransform(scale, scale, position.X, position.Y);
         }
 
         private void ImageCollection_Selected(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        public System.Drawing.Image SelectedItemProp
-        {
-            get { return selectedItemProp; }
-            set { selectedItemProp = value; }
-        }
-
-        private System.Drawing.Image selectedItemProp;
-        private void ImageCollection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Image image1 = (Image)sender;
-            var image = ImageCollection.SelectedItem as System.Drawing.Image;
-          //  SelectedImage.Source = ConvertImage(image);
-
-
-        }
-
-        public static ImageSource ConvertImage(System.Drawing.Image image)
-        {
-            try
+            if (sender is ListBox lb) SelectedImage.Source = (ImageSource)lb.SelectedItem;
+            SelectedImage.HorizontalAlignment = HorizontalAlignment.Center;
+            SelectedImage.VerticalAlignment = VerticalAlignment.Center;
+            if (!previousSearch && !browse)
             {
-                if (image != null)
-                {
-                    var bitmap = new System.Windows.Media.Imaging.BitmapImage();
-                    bitmap.BeginInit();
-                    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
-                    image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                    memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                    bitmap.StreamSource = memoryStream;
-                    bitmap.EndInit();
-                    return bitmap;
-                }
+                ShowSelectedImage.Visibility = Visibility.Visible;
             }
-            catch { }
-            return null;
         }
-        public string defaultText { get; set; }
-        bool hasBeenClicked = false;
-        string text = "Type your serach here";
+
+       
         private void TextBox_Focus(object sender, RoutedEventArgs e)
         {
-            defaultText = SearchTextBox.Text;            
+            defaultText = SearchTextBox.Text;
             if (defaultText.Equals(text))
             {
                 TextBox box = sender as TextBox;
@@ -140,9 +107,17 @@ namespace CustomItemsPanel
             TextBox box = sender as TextBox;
             if (SearchTextBox.Text == "")
             {
-                box.Text = text;
-            }            
+                if (box != null) box.Text = text;
+            }
         }
+
+        private void ShowSelectedImage_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            ShowSelectedImage.Visibility = Visibility.Hidden;
+        }
+
+        
+        #endregion
 
     }
 }

@@ -27,28 +27,29 @@ namespace CustomItemsPanel
         #endregion
         #region Public Method
         /// <summary>
-        /// This method will call the Flicker api and retrive the available photos
+        /// This method will call the Flicker api and retrieve the available photos
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         public IEnumerable GetPhotos(string cacheKey)
         {
-           
             try
             {
-                ObjectCache cache = MemoryCache.Default;
+               ObjectCache cache = MemoryCache.Default;
 
                 if (cache.Contains(cacheKey.ToLower()))
                     return (IEnumerable)cache.Get(cacheKey.ToLower());
                 else
                 {
-                    PhotoSearchOptions options = new PhotoSearchOptions();
-                    //options.PerPage = 16;
-                    options.Page = 2;
-                    options.SortOrder = PhotoSearchSortOrder.DatePostedDescending;
-                    options.MediaType = MediaType.Photos;
-                    options.Extras = PhotoSearchExtras.All;
-                    options.Tags = cacheKey;
+                    PhotoSearchOptions options = new PhotoSearchOptions
+                    {
+                        PerPage = 100,
+                        Page =1,
+                        SortOrder = PhotoSearchSortOrder.DatePostedDescending,
+                        MediaType = MediaType.Photos,
+                        Extras = PhotoSearchExtras.All,
+                        Tags = cacheKey
+                    };
 
                     Flickr flickr = new Flickr(flickrKey);
                     PhotoCollection photos = flickr.PhotosSearch(options);

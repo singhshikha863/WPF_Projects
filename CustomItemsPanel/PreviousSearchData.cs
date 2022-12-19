@@ -69,8 +69,6 @@ namespace CustomItemsPanel
                 {
                     if (!item.Equals(currentKeyword))
                     {
-                       // BusinessLogic bb = new BusinessLogic(new ErrorLogFile());
-                       // bb.GetPhotos(item);
                         updateKeyword = item;
                         return;
                     }
